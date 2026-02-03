@@ -1,0 +1,11 @@
+PLEASE READ:
+
+To add your own photos to the website:
+
+1.  Copy your photo files into this folder (`public/memories`).
+2.  Rename them to `mem1.jpg`, `mem2.jpg`, `mem3.jpg` (or whatever naming you prefer).
+3.  Open `src/components/MemoryLane.jsx` in VS Code.
+4.  Update the `img` field in the `memories` list to match your filenames.
+    Example: `img: "/memories/my-photo.jpg"`
+
+That's it!
