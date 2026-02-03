@@ -2,6 +2,7 @@
   "name": "valentine-birthday-site",
   "private": true,
   "version": "0.0.0",
+  "homepage": "https://Vishveshwaran.github.io/valentine-surprise",
   "type": "module",
   "scripts": {
     "dev": "vite",
