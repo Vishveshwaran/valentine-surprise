@@ -1,107 +1,100 @@
-import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import React, { useRef } from 'react';
+import { motion, useScroll, useTransform } from 'framer-motion';
 
-const memories = [
-    {
-        id: 1,
-        text: "Remember when we first met?",
-        subtext: "It felt like time stopped. ✨",
-        img: "https://media.tenor.com/M6LgV7x8-hAAAAAi/cute-bear.gif", // PLACEHOLDER
-        color: "bg-pink-100"
-    },
-    {
-        id: 2,
-        text: "You make me the happiest person.",
-        subtext: "Every single day.",
-        img: "https://media.tenor.com/gUiu1zyxfzYAAAAi/bear-kiss-bear-kisses.gif", // PLACEHOLDER
-        color: "bg-red-100"
-    },
-    {
-        id: 3,
-        text: "I can't wait for our future.",
-        subtext: "It's going to be amazing.",
-        img: "https://media.tenor.com/N2wJ2y6sC3sAAAAi/brown-bear-cute.gif", // PLACEHOLDER
-        color: "bg-purple-100"
-    }
+const photos = [
+    "WhatsApp Image 2026-02-11 at 6.44.52 PM.jpeg",
+
+    "WhatsApp Image 2026-02-11 at 6.47.10 PM (1).jpeg",
+    "WhatsApp Image 2026-02-11 at 6.47.10 PM.jpeg",
+    "WhatsApp Image 2026-02-11 at 6.47.11 PM (1).jpeg",
+    "WhatsApp Image 2026-02-11 at 6.47.11 PM.jpeg",
+    "WhatsApp Image 2026-02-11 at 6.47.12 PM (1).jpeg",
+    "WhatsApp Image 2026-02-11 at 6.47.12 PM (2).jpeg",
+    "WhatsApp Image 2026-02-11 at 6.47.12 PM.jpeg",
+    "WhatsApp Image 2026-02-11 at 6.47.15 PM.jpeg",
+    "WhatsApp Image 2026-02-11 at 6.47.16 PM (1).jpeg",
+    "WhatsApp Image 2026-02-11 at 6.47.16 PM.jpeg",
+    "WhatsApp Image 2026-02-11 at 6.47.17 PM (1).jpeg",
+    "WhatsApp Image 2026-02-11 at 6.47.17 PM.jpeg",
+    "WhatsApp Image 2026-02-11 at 6.47.18 PM (1).jpeg",
+    "WhatsApp Image 2026-02-11 at 6.47.18 PM (2).jpeg",
+    "WhatsApp Image 2026-02-11 at 6.47.18 PM.jpeg",
+    "WhatsApp Image 2026-02-11 at 6.47.19 PM (1).jpeg",
+    "WhatsApp Image 2026-02-11 at 6.47.19 PM (2).jpeg",
+    "WhatsApp Image 2026-02-11 at 6.47.19 PM.jpeg",
+    "WhatsApp Image 2026-02-11 at 6.47.20 PM (1).jpeg",
+    "WhatsApp Image 2026-02-11 at 6.47.20 PM (2).jpeg",
+    "WhatsApp Image 2026-02-11 at 6.47.20 PM.jpeg",
+    "WhatsApp Image 2026-02-11 at 6.47.21 PM.jpeg",
+    "WhatsApp Image 2026-02-11 at 7.37.03 PM (1).jpeg",
+    "WhatsApp Image 2026-02-11 at 7.37.03 PM.jpeg",
+    "WhatsApp Image 2026-02-11 at 7.37.04 PM.jpeg"
 ];
 
-export default function MemoryLane({ onComplete }) {
-    const [currentIndex, setCurrentIndex] = useState(0);
-
-    const nextSlide = () => {
-        if (currentIndex === memories.length - 1) {
-            onComplete();
-        } else {
-            setCurrentIndex((prev) => prev + 1);
-        }
-    };
-
-    const prevSlide = () => {
-        if (currentIndex > 0) {
-            setCurrentIndex((prev) => prev - 1);
-        }
-    };
+const MemoryLane = () => {
+    const containerRef = useRef(null);
+    const { scrollYProgress } = useScroll({
+        target: containerRef,
+        offset: ["start end", "end start"]
+    });
 
     return (
-        <div className="flex flex-col items-center justify-center p-4 w-full h-full">
-            <h2 className="text-2xl font-bold text-brand-dark mb-6 text-center">Our Journey Together</h2>
-
-            {/* Container aspect ratio tweaked for mobile screens */}
-            <div className="relative w-full max-w-xs aspect-[3/4] md:max-w-sm">
-                <AnimatePresence mode="wait">
-                    <motion.div
-                        key={currentIndex}
-                        initial={{ opacity: 0, x: 50 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        exit={{ opacity: 0, x: -50 }}
-                        transition={{ duration: 0.3 }}
-                        className={`absolute inset-0 rounded-3xl shadow-2xl flex flex-col overflow-hidden ${memories[currentIndex].color}`}
-                    >
-                        {/* Image Area - 60% height */}
-                        <div className="h-[60%] w-full bg-white overflow-hidden relative">
-                            <img
-                                src={memories[currentIndex].img}
-                                alt="Memory"
-                                className="w-full h-full object-cover"
-                                onError={(e) => { e.target.src = "https://placehold.co/400x500?text=Your+Photo+Here" }}
-                            />
-                        </div>
-
-                        {/* Content Area - 40% height */}
-                        <div className="h-[40%] p-4 flex flex-col justify-center text-center">
-                            <p className="text-lg md:text-xl font-bold text-gray-800 mb-2 leading-tight">
-                                {memories[currentIndex].text}
-                            </p>
-                            <p className="text-sm md:text-base text-gray-600 italic">
-                                {memories[currentIndex].subtext}
-                            </p>
-                        </div>
-
-                        <div className="absolute top-3 right-3 bg-white/50 backdrop-blur-sm px-2 py-1 rounded-full text-[10px] md:text-xs font-bold text-gray-600">
-                            {currentIndex + 1} / {memories.length}
-                        </div>
-                    </motion.div>
-                </AnimatePresence>
-            </div>
-
-            <div className="flex justify-between items-center w-full max-w-xs mt-6 px-2">
-                <button
-                    onClick={prevSlide}
-                    disabled={currentIndex === 0}
-                    className={`p-3 rounded-full transition-all ${currentIndex === 0 ? 'opacity-30 cursor-not-allowed' : 'bg-white shadow-md active:scale-95'}`}
+        <section ref={containerRef} className="py-20 bg-dreamy-100 min-h-screen relative overflow-hidden">
+            <div className="max-w-4xl mx-auto px-4 relative">
+                <motion.h2
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    className="text-4xl md:text-5xl font-handwriting text-center text-dreamy-600 mb-20 relative z-10"
                 >
-                    <ChevronLeft className="w-6 h-6 text-brand-dark" />
-                </button>
+                    Our Journey Together
+                </motion.h2>
 
-                <button
-                    onClick={nextSlide}
-                    className="bg-brand-red text-white py-3 px-6 rounded-full font-bold shadow-xl active:scale-95 transition-all flex items-center gap-2 text-sm md:text-base"
-                >
-                    {currentIndex === memories.length - 1 ? 'Finish ❤️' : 'Next'}
-                    {currentIndex !== memories.length - 1 && <ChevronRight className="w-4 h-4" />}
-                </button>
+                {/* Central Line */}
+                <div className="absolute left-1/2 top-40 bottom-20 w-1 bg-gradient-to-b from-dreamy-300 via-dreamy-400 to-dreamy-300 transform -translate-x-1/2 rounded-full hidden md:block" />
+
+                <div className="space-y-24 relative z-10">
+                    {photos.map((photo, index) => {
+                        const isLeft = index % 2 === 0;
+                        return (
+                            <motion.div
+                                key={photo}
+                                initial={{ opacity: 0, x: isLeft ? -100 : 100 }}
+                                whileInView={{ opacity: 1, x: 0 }}
+                                viewport={{ once: true, margin: "-100px" }}
+                                transition={{ duration: 0.8, ease: "easeOut" }}
+                                className={`flex ${isLeft ? 'md:flex-row' : 'md:flex-row-reverse'} flex-col items-center gap-8`}
+                            >
+                                {/* Photo Card */}
+                                <div className="w-full md:w-5/12">
+                                    <div className="bg-white p-4 rounded-3xl shadow-xl transform hover:scale-105 transition-transform duration-300 rotate-2 hover:rotate-0">
+                                        <img
+                                            src={`${import.meta.env.BASE_URL}memories/${encodeURIComponent(photo)}`}
+                                            alt="Memory"
+                                            className="w-full h-auto rounded-2xl object-cover"
+                                            loading="lazy"
+                                        />
+                                    </div>
+                                </div>
+
+                                {/* Connector Dot (Desktop only) */}
+                                <div className="hidden md:flex w-2/12 justify-center">
+                                    <div className="w-8 h-8 bg-dreamy-400 rounded-full border-4 border-white shadow-lg z-10 animate-pulse" />
+                                </div>
+
+                                {/* Decorative Text/Space */}
+                                <div className="w-full md:w-5/12 text-center md:text-left">
+                                    <p className="font-handwriting text-2xl text-dreamy-500 transform rotate-1">
+                                        {index % 3 === 0 ? "So beautiful..." : index % 3 === 1 ? "Unforgettable..." : "Pure magic ✨"}
+                                    </p>
+                                </div>
+                            </motion.div>
+                        );
+                    })}
+                </div>
             </div>
-        </div>
+        </section>
     );
-}
+};
+
+export default MemoryLane;

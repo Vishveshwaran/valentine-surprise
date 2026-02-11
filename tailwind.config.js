@@ -7,12 +7,18 @@ export default {
   theme: {
     extend: {
       colors: {
-        brand: {
-          pink: '#ff7eb3',
-          red: '#ff758c',
-          white: '#ffffff',
-          dark: '#2d3748'
+        dreamy: {
+          100: '#ffe4e6', // rose-100
+          200: '#fecdd3', // rose-200
+          300: '#fda4af', // rose-300
+          400: '#fb7185', // rose-400
+          500: '#f43f5e', // rose-500
+          600: '#e11d48', // rose-600
         }
+      },
+      fontFamily: {
+        surreal: ['"Outfit"', 'sans-serif'],
+        handwriting: ['"Dancing Script"', 'cursive'],
       },
       animation: {
         'float': 'float 3s ease-in-out infinite',

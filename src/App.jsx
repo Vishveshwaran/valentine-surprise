@@ -1,90 +1,55 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import Layout from './components/Layout';
-import BirthdayStage from './components/BirthdayStage';
+import Hero from './components/Hero';
 import MemoryLane from './components/MemoryLane';
-import ValentineQuestion from './components/ValentineQuestion';
-import Success from './components/Success';
+import CandleBlow from './components/CandleBlow';
+import EmergencyKit from './pages/EmergencyKit';
 
-function App() {
-  const [stage, setStage] = useState('welcome'); // welcome, birthday, memories, valentine, success
+const Home = () => {
+  const [showContent, setShowContent] = useState(false);
 
   return (
-    <Layout>
-      <AnimatePresence mode="wait">
-        {stage === 'welcome' && (
-          <motion.div
-            key="welcome"
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 1.1 }}
-            className="text-center space-y-8"
-          >
-            <h1 className="text-4xl md:text-5xl font-bold text-brand-red drop-shadow-sm">
-              Hey My Love! ❤️
-            </h1>
-            <p className="text-lg text-gray-700">
-              I have a little surprise for you...
-            </p>
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={() => setStage('birthday')}
-              className="bg-brand-red text-white px-8 py-4 rounded-full text-xl font-bold shadow-xl hover:shadow-2xl transition-all"
-            >
-              Open Surprise ✨
-            </motion.button>
-          </motion.div>
-        )}
+    <div className="w-full min-h-screen overflow-x-hidden bg-dreamy-100">
+      {!showContent && <CandleBlow onComplete={() => setShowContent(true)} />}
 
-        {stage === 'birthday' && (
+      <AnimatePresence>
+        {showContent && (
           <motion.div
-            key="birthday"
-            initial={{ opacity: 0, x: 100 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -100 }}
-            className="w-full"
-          >
-            <BirthdayStage onComplete={() => setStage('memories')} />
-          </motion.div>
-        )}
-
-        {stage === 'memories' && (
-          <motion.div
-            key="memories"
-            initial={{ opacity: 0, x: 100 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -100 }}
-            className="w-full"
-          >
-            <MemoryLane onComplete={() => setStage('valentine')} />
-          </motion.div>
-        )}
-
-        {stage === 'valentine' && (
-          <motion.div
-            key="valentine"
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 1.2 }}
-            className="w-full h-full"
-          >
-            <ValentineQuestion onYes={() => setStage('success')} />
-          </motion.div>
-        )}
-
-        {stage === 'success' && (
-          <motion.div
-            key="success"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="w-full h-full"
+            transition={{ duration: 1 }}
           >
-            <Success />
+            <Hero />
+            <MemoryLane />
+
+            <section className="py-20 text-center">
+              <Link
+                to="/emergency-kit"
+                className="inline-block bg-white text-dreamy-600 px-8 py-4 rounded-full text-xl font-bold font-surreal shadow-lg hover:shadow-xl hover:scale-105 transition-all border-2 border-dreamy-200"
+              >
+                Open Your Emergency Kit 🍬
+              </Link>
+            </section>
+
+            <footer className="py-8 text-center text-dreamy-600 font-handwriting text-xl bg-dreamy-100/50">
+              Made with love for you ♥
+            </footer>
           </motion.div>
         )}
       </AnimatePresence>
-    </Layout>
+    </div>
+  );
+};
+
+function App() {
+  return (
+    <Router basename={import.meta.env.BASE_URL}>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/emergency-kit" element={<EmergencyKit />} />
+      </Routes>
+    </Router>
   );
 }
 
