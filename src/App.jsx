@@ -8,6 +8,7 @@ import EmergencyKit from './pages/EmergencyKit';
 
 const Home = () => {
   const [showContent, setShowContent] = useState(false);
+  console.log("Birthday Site Version: v2.0 - Loaded");
 
   return (
     <div className="w-full min-h-screen overflow-x-hidden bg-dreamy-100">
