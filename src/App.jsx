@@ -34,7 +34,7 @@ const Home = () => {
             </section>
 
             <footer className="py-8 text-center text-dreamy-600 font-handwriting text-xl bg-dreamy-100/50">
-              Made with love for you ♥
+              Made with love for you ♥ (v2.1)
             </footer>
           </motion.div>
         )}
